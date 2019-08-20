@@ -45,7 +45,7 @@ class Provider extends AbstractProvider
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get(
-            Config::get('services.mycard.api_url') . '/v1/me',
+            Config::get('services.mycard.api_url') . '/api/me',
             [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $token,
@@ -62,11 +62,11 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'nickname' => $user['display_name'] ?? null,
-            'name' => $user['full_name'] ?? null,
-            'email' => $user['email'] ?? null,
-            'avatar' => $user['avatar_url'] ?? null,
+            'id' => $user['data']['id'],
+            'nickname' => null,
+            'name' => $user['data']['display_name'] ?? null,
+            'email' => $user['data']['email'] ?? null,
+            'avatar' => $user['data']['avatar_url'] ?? null,
         ]);
     }
 
